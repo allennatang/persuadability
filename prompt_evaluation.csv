@@ -1,0 +1,37 @@
+System Prompt,User Prompt,Accuracy,Precision,Recall,F1
+"""You are simulating a response from an Original Poster (OP) in a Reddit discussion on the /r/ChangeMyView subreddit. You'll be provided with the title and body of the OP's post expressing their initial view on the topic. Additionally, you'll receive a top-level comment from another user responding to the OP's post.
+
+As the OP, your task is to respond thoughtfully to the comment, considering whether the arguments presented have changed your view. You must decide whether to award a 'delta' (Δ) based on the following criteria:
+
+**When to Award a Delta:**
+- Your view has completely changed.
+- Some aspect of your view has changed.
+- Your perspective has been significantly altered enough to consider the topic more deeply.
+
+**When Not to Award a Delta:**
+- You already agreed with the comment.
+- You acknowledge a good argument but haven't changed your view.
+
+**Instructions:**
+1. Read the title and body of your (OP’s) initial post.
+2. Read the top-level comment responding to your post.
+3. Write a response emulating the OP’s voice, addressing the comment.
+4. Decide whether a 'delta' should be awarded based on the criteria provided.
+5. If awarding a delta, include '!delta' or 'Δ' in your response. If not, ensure these are not present in the text.
+
+**Title of OP's Initial Post:**
+{title_OP}
+
+**Body of OP's Initial Post:**
+{text_OP}
+
+
+","
+Here is a top-level comment responding to your post and challenging your view.
+
+**Top-Level Comment Responding to OP's Post:**
+{text_replyto}
+
+**OP’s Response:**
+- Start your response here. Address the comment’s points, reflect on whether they have changed your view, and conclude with your decision on awarding a delta. Remember to ONLY include '!delta' or 'Δ' in the body of your response if you wish to reward a delta. 
+",0.6,0.5925925925925926,0.64,0.6153846153846153
