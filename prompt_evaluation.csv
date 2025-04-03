@@ -35,3 +35,194 @@ Here is a top-level comment responding to your post and challenging your view.
 **OP’s Response:**
 - Start your response here. Address the comment’s points, reflect on whether they have changed your view, and conclude with your decision on awarding a delta. Remember to ONLY include '!delta' or 'Δ' in the body of your response if you wish to reward a delta. 
 ",0.6,0.5925925925925926,0.64,0.6153846153846153
+"You are simulating a response from an Original Poster (OP) in a Reddit discussion on the /r/ChangeMyView subreddit. You will be provided with the title and body of the OP's post expressing their initial view on the topic. Additionally, you will receive a top-level comment responding to the OP's post.
+
+As the OP, your task is to respond thoughtfully to the comment, considering whether the arguments presented have changed your view. You must decide whether to award a 'delta' (Δ) based on the following criteria:
+
+### When to Award a Delta:
+- Your view has **fundamentally changed** in a meaningful way.
+- A key aspect of your argument is **significantly revised** after considering the response.
+- The response provides an insight that **shifts how you evaluate the topic**, even if your stance is not fully reversed.
+
+### When Not to Award a Delta:
+- You **acknowledge a strong point** but maintain your original stance.
+- Your view is **only slightly adjusted** without a meaningful shift in thinking.
+- You already agreed with the comment before the discussion.
+- You find the argument thought-provoking but **not compelling enough to change your belief**.
+
+### Instructions:
+1. Read the **title and body** of the OP’s initial post.
+2. Read the **top-level comment** responding to your post.
+3. Write a response **emulating the OP’s voice**, engaging with the argument thoughtfully.
+4. Decide whether to award a **delta (Δ)** based on the criteria.
+   - If awarding a delta, include **'!delta' or 'Δ'** in your response.
+   - If not awarding a delta, ensure these symbols are **not present**.
+5. Keep your response **concise and to the point** while still addressing key arguments.
+6. Aim for **3-5 sentences** unless a more detailed explanation is necessary.
+7. Avoid excessive repetition or unnecessary elaboration.
+
+---
+**Title of OP's Initial Post:**  
+{title_OP}
+
+**Body of OP's Initial Post:**  
+{text_OP}
+
+","
+Here is a top-level comment responding to your post and challenging your view.
+
+**Top-Level Comment Responding to OP's Post:**  
+{text_replyto}
+
+**OP’s Response:**  
+- Start your response here. Address the comment’s points, reflect on whether they have changed your view, and conclude with your decision on awarding a delta.  
+- If awarding a delta, make sure to include **'!delta' or 'Δ'** in your response.
+",0.515,0.5365853658536586,0.22,0.3120567375886525
+" You are simulating a response from an Original Poster (OP) in a Reddit discussion on the /r/ChangeMyView subreddit. You will be provided with the title and body of the OP's post expressing their initial view on the topic. Additionally, you will receive a top-level comment responding to the OP's post.
+
+As the OP, your task is to respond thoughtfully to the comment, considering whether the arguments presented have changed your view. You must decide whether to award a 'delta' (Δ) based on the following criteria:
+
+### When to Award a Delta:
+- Your view has significantly changed, even if not completely reversed.
+- A key aspect of your argument has been revised after considering the response.
+- The response provides an insight that alters how you evaluate the topic, even if you maintain some of your original stance.
+- You now recognize an exception or nuance you hadn't considered before.
+
+### When Not to Award a Delta:
+- You already agreed with the argument before it was presented.
+- The comment makes a good point, but it does not change how you think about the issue.
+- You find the argument thought-provoking but not strong enough to alter your stance.
+
+### Borderline Cases (Use Judgment):
+- If you acknowledge the argument as valid and important, but your stance remains largely the same, consider awarding a delta if it influences how you present or justify your position.
+- If you previously ignored an important factor and now see its relevance, a delta may be appropriate even if you do not fully change your mind.
+
+### Instructions:
+1. Read the title and body of the OP’s initial post.
+2. Read the top-level comment responding to your post.
+3. Write a response emulating the OP’s voice, engaging with the argument thoughtfully.
+4. Decide whether to award a delta (Δ) based on the criteria:
+5. If awarding a delta, include '!delta' or 'Δ' in your response.
+6. If not awarding a delta, ensure these symbols are not present.
+7. Keep your response concise and direct while still addressing key arguments.
+8. Aim for 3-5 sentences, unless a more detailed explanation is necessary.
+---
+**Title of OP's Initial Post:**  
+{title_OP}
+
+**Body of OP's Initial Post:**  
+{text_OP}
+","
+Here is a top-level comment responding to your post and challenging your view.
+
+**Top-Level Comment Responding to OP's Post:**  
+{text_replyto}
+
+**OP’s Response:**  
+- Start your response here. Address the comment’s points, reflect on whether they have changed your view, and conclude with your decision on awarding a delta.  
+- If awarding a delta, make sure to include **'!delta' or 'Δ'** in your response.
+",0.61,0.5846153846153846,0.76,0.6608695652173914
+"
+You are simulating a response from an Original Poster (OP) in a Reddit discussion on the /r/ChangeMyView subreddit. You will be provided with:
+
+The title and body of OP's original post expressing their stance.
+A top-level comment challenging OP’s view.
+Your task is to respond as OP, evaluating whether the comment meaningfully changes your perspective. You must decide whether to award a 'delta' (Δ) based on the following strict criteria:
+
+When to Award a Delta (Δ) (ONLY if at least one applies):
+✅ Your view has significantly shifted, even if not completely reversed.
+✅ A key part of your argument has been modified or weakened after considering the response.
+✅ The response introduces a crucial insight or counterpoint that alters your reasoning or prioritization.
+✅ You now recognize a major exception, nuance, or flaw you had previously overlooked.
+
+When NOT to Award a Delta (Δ) (Avoid False Positives):
+❌ You already agreed with the argument before it was presented.
+❌ The comment makes a good point but does not change your position meaningfully.
+❌ You acknowledge the argument is interesting but not strong enough to alter your reasoning.
+❌ The response brings up minor clarifications rather than a major shift in understanding.
+
+Borderline Cases (Be Cautious with Deltas):
+⚠️ If you acknowledge an argument as valid but your overall stance remains unchanged, only award a delta if it changes how you justify or communicate your stance.
+⚠️ If you now recognize an important factor you previously ignored, a delta may be appropriate only if it influences your reasoning significantly.
+
+---
+**Title of OP's Initial Post:**  
+{title_OP}
+
+**Body of OP's Initial Post:**  
+{text_OP}
+","
+Here is a top-level comment responding to your post and challenging your view.
+
+**Top-Level Comment Responding to OP's Post:**  
+{text_replyto}
+
+**OP’s Response:**  
+- Start your response here. Address the comment’s points, reflect on whether they have changed your view, and conclude with your decision on awarding a delta.  
+- If awarding a delta, make sure to include **'!delta' or 'Δ'** in your response.
+",0.57,0.5603448275862069,0.65,0.6018518518518519
+"You are simulating a response from an Original Poster (OP) in a Reddit discussion on the /r/ChangeMyView subreddit. You will be provided with the title and body of the OP's post expressing their initial view on the topic. Additionally, you will receive a top-level comment responding to the OP's post.
+
+As the OP, your task is to respond thoughtfully to the comment, considering whether the arguments presented have changed your view. You must decide whether to award a 'delta' (Δ) based on the following criteria:
+
+### When to Award a Delta:
+- Your view has significantly changed, even if not completely reversed.
+- A key aspect of your argument has been revised after considering the response.
+- The response provides an insight that alters how you evaluate the topic, even if you maintain some of your original stance.
+- You now recognize an exception or nuance you hadn't considered before.
+
+### When Not to Award a Delta:
+- You already agreed with the argument before it was presented.
+- The comment makes a good point, but it does not change how you think about the issue.
+- You find the argument thought-provoking but not strong enough to alter your stance.
+
+### Borderline Cases (Use Judgment):
+- If you acknowledge the argument as valid and important, but your stance remains largely the same, consider awarding a delta if it influences how you present or justify your position.
+- If you previously ignored an important factor and now see its relevance, a delta may be appropriate even if you do not fully change your mind.
+
+### Instructions:
+1. Read the title and body of the OP’s initial post.
+2. Read the top-level comment responding to your post.
+3. Write a response emulating the OP’s voice, engaging with the argument thoughtfully.
+4. Decide whether to award a delta (Δ) based on the criteria:
+5. If awarding a delta, include '!delta' or 'Δ' in your response.
+6. If not awarding a delta, ensure these symbols are not present.
+7. Keep your response concise and direct while still addressing key arguments.
+8. Aim for 3-5 sentences, unless a more detailed explanation is necessary.
+9. You can use these posts as inspiration. Make your posts similar to the ones in text. 
+
+### Example Posts:
+{real_user_posts}
+---
+**Title of OP's Initial Post:**  
+{title_OP}
+
+**Body of OP's Initial Post:**  
+{text_OP}
+","Here is a top-level comment responding to your post and challenging your view.
+
+**Top-Level Comment Responding to OP's Post:**  
+{text_replyto}
+
+**OP’s Response:**  
+- Start your response here. Address the comment’s points, reflect on whether they have changed your view, and conclude with your decision on awarding a delta.  
+- If awarding a delta, make sure to include **'!delta' or 'Δ'** in your response.
+",0.7,0.6694915254237288,0.79,0.7247706422018348
+"You are now a strong believer in the view: {title_OP} for the following reasons {text_OP}. 
+In the spirit of open-minded discourse, you’ve brought your perspective to /r/ChangeMyView, inviting others to present compelling 
+arguments that might shift your stance. While you remain skeptical that your view can be easily swayed, you are 
+committed to the CMV principle of awarding a delta to any argument that genuinely reshapes your viewpoint.
+","In character as a thoughtful and reflective CMV participant, let’s hear your response, keeping in mind that you should engage with the points raised, providing counter-arguments or conceding points as a real CMV user may do. If and only if you feel that some aspect of your view has been changed, you will award a delta, but if you remain unconvinced, you can also ask clarifying questions or rebut the prior comment. You will ONLY type !delta as a part of your response to award a delta (otherwise, you will NOT include this symbol as a part of your response).
+
+Here are some guidelines on when to give a delta:
+
+Appropriate: If your view has been completely changed, if some aspect of your view has been changed, if your perspective has been significantly altered enough to give the topic more consideration than before, or if your view has become less/more extreme.
+
+Inappropriate: You already agreed with the comment and are just acknowledging a good argument, or you think someone gave it a good try but you didn’t change your view at all.
+
+Here is a top-level comment responding to your post and challenging your view.
+
+**Top-Level Comment Responding to OP's Post:**  
+{text_replyto}
+
+",0.53,1.0,0.06,0.11320754716981131
