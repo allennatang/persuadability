@@ -1,0 +1,260 @@
+import pandas as pd
+import ollama
+import subprocess
+import torch
+import sys
+import os
+import time
+import matplotlib.pyplot as plt
+from sklearn.metrics import precision_score, recall_score, f1_score, accuracy_score
+import json
+
+# Configuration
+start_time = time.time()
+
+temperature = 0.55
+model = sys.argv[1]
+
+# Templates
+template_system = """You are simulating a response from an Original Poster (OP) in a Reddit discussion on the /r/ChangeMyView subreddit. You will be provided with the title and body of the OP's post expressing their initial view on the topic. Additionally, you will receive a top-level comment responding to the OP's post.
+
+As the OP, your task is to respond thoughtfully to the comment, considering whether the arguments presented have changed your view. You must decide whether to award a 'delta' (Δ) based on the following criteria:
+
+### When to Award a Delta:
+- Your view has significantly changed, even if not completely reversed.
+- A key aspect of your argument has been revised after considering the response.
+- The response provides an insight that alters how you evaluate the topic, even if you maintain some of your original stance.
+- You now recognize an exception or nuance you hadn't considered before.
+
+### When Not to Award a Delta:
+- You already agreed with the argument before it was presented.
+- The comment makes a good point, but it does not change how you think about the issue.
+- You find the argument thought-provoking but not strong enough to alter your stance.
+
+### Borderline Cases (Use Judgment):
+- If you acknowledge the argument as valid and important, but your stance remains largely the same, consider awarding a delta if it influences how you present or justify your position.
+- If you previously ignored an important factor and now see its relevance, a delta may be appropriate even if you do not fully change your mind.
+
+### Instructions:
+1. Read the title and body of the OP’s initial post.
+2. Read the top-level comment responding to your post.
+3. Write a response emulating the OP’s voice, engaging with the argument thoughtfully.
+4. Decide whether to award a delta (Δ) based on the criteria:
+5. If awarding a delta, include '!delta' or 'Δ' in your response.
+6. If not awarding a delta, ensure these symbols are not present.
+7. Keep your response concise and direct while still addressing key arguments.
+8. Aim for 3-5 sentences, unless a more detailed explanation is necessary.
+---
+**Title of OP's Initial Post:**
+{title_OP}
+
+**Body of OP's Initial Post:**
+{text_OP}
+"""
+
+template_user = """Here is a top-level comment responding to your post and challenging your view.
+
+**Top-Level Comment Responding to OP's Post:**  
+{text_replyto}
+
+**OP’s Response:**  
+- Start your response here. Address the comment’s points, reflect on whether they have changed your view, and conclude with your decision on awarding a delta.  
+- If awarding a delta, make sure to include **'!delta' or 'Δ'** in your response.
+"""
+
+# Command line processing
+if len(sys.argv) == 4:
+    prompt = sys.argv[3]
+    if '{sentence}' not in prompt:
+        raise ValueError("The custom prompt must include the placeholder '{sentence}'.")
+else:
+    prompt= template_user
+
+device = 'cuda' if torch.cuda.is_available() else 'cpu'
+print(f"Using device: {device}")
+
+def pull_model():
+    """Pull the specified ollama model"""
+        try:
+            subprocess.run(["ollama", "pull", model], check=True)
+        except subprocess.CalledProcessError as e:
+            print(f"Error pulling model {model}: {e}")
+
+def get_LLM_delta_response(system_prompt, user_prompt):
+    global model
+    global temperature
+
+    response = ollama.generate(
+        model=model, 
+        prompt=system_prompt, 
+        system=system_prompt, 
+        options={'temperature': temperature}
+        )
+    return response['response']
+
+def get_results(sample):
+    global template_system
+    global template_user
+    counter = 0
+    start_time = time.time() # Record the start time
+    print('STARTED')
+
+    for index, row in sample.iterrows():
+        counter += 1
+        if counter % 100 == 0:
+            elapsed_time = time.time() - start_time # Calculate elapsed time
+            print(f"Processed {counter} / {len(sample)} samples. Time elapsed: {elapsed_time:.2f} seconds.")
+
+        title_OP = row['title_OP']
+        text_OP = row['text_OP']
+        text_replyto = row['text_replyto']
+    
+        system_prompt = template_system.format(title_OP=title_OP, text_OP=text_OP)
+        user_prompt = template_user.format(text_replyto=text_replyto)
+
+        # Escape characters in the LLM-generated response so it doesn't break the csv file
+        try:
+            response_LLM = get_LLM_delta_response(system_prompt, user_prompt)
+            sample.at[index, 'Response_LLM'] = repr(response_LLM)  # wraps in quotes and escapes special chars
+        except Exception as e:
+            sample.at[index, 'Response_LLM'] = f"Error: {str(e)}"
+
+        export_file_name = f'results_{model}.csv'
+        export_file_name = export_file_name.replace(':', '_') # so that it doesn't break when it gets downloaded
+        sample.to_csv(export_file_name, index=False)
+
+    return export_file_name
+
+def safe_export(df: pd.DataFrame, filename: str) -> None:
+    """Safely export DataFrame to CSV with proper escaping."""
+    try:
+        # Ensure filename is safe
+        safe_filename = filename.replace(':', '_').replace('/', '_')
+        df.to_csv(safe_filename, index=False, escapechar='\\', quoting=1)
+        print(f"Successfully saved to {safe_filename}")
+    except Exception as e:
+        print(f"Error saving file {filename}: {e}")
+        raise
+
+# Initialize
+pull_model()
+
+# Load data
+file_name, _ = os.path.splitext(sys.argv[2])
+try:
+    data = pd.read_csv(f'{file_name}.csv')
+except FileNotFoundError:
+    print(f"The file {file_name}.csv was not found, use command ls to see what files are in the current directory.")
+
+# Process data
+export_file_name = get_results(data)
+print(f"Processing complete. Results saved to {export_file_name}")
+
+# Save results
+
+
+# Display elapsed time
+end_time = time.time()
+elapsed_time = end_time - start_time
+print(f"Time taken: {elapsed_time:.2f} seconds")
+
+res_path = export_file_name
+
+res_df = pd.read_csv(res_path)
+
+# create column for LLM delta
+
+def has_delta(text):
+    if '!delta' in text or 'Δ' in text:
+        return True
+    else:
+        return False
+
+res_df['LLM_delta'] = res_df['Response_LLM'].apply(lambda x: has_delta(x))
+
+# evaluate correctness
+
+def score(row):
+    try:
+        if row['LLM_delta'] == True and row['has_delta'] == True:
+            return 'TP'
+        if row['LLM_delta'] == False and row['has_delta'] == True:
+            return 'FN'
+        if row['LLM_delta'] == True and row['has_delta'] == False:
+            return 'FP'
+        if row['LLM_delta'] == False and row['has_delta'] == False:
+            return 'TN'
+    except KeyError:
+        print(row)
+    
+res_df['result'] = res_df.apply(lambda x: score(x), axis=1)
+
+def format_for_gpt(res_df):
+    data = []
+    for _, row in res_df.iterrows():
+        data.append({
+            "title_OP": row["title_OP"],
+            "text_OP": row["text_OP"],
+            "text_replyto": row["text_replyto"],
+            "LLM_response": {
+                "text": row["Response_LLM"],  # If you store the LLM's actual reply
+                "gave_delta": bool(row["LLM_delta"])
+            },
+            "actual_user": {
+                "text": row["text"],
+                "gave_delta": bool(row["has_delta"])
+            }
+        })
+    return json.dumps(data, indent=4)
+
+# Save to a file
+with open("persuasion_data.json", "w") as f:
+    f.write(format_for_gpt(res_df))
+
+# Example DataFrame
+df = res_df
+
+# Count occurrences of each result type
+confusion_counts = df['result'].value_counts()
+
+# Extract TP, TN, FP, FN counts
+TP = confusion_counts.get('TP', 0)
+TN = confusion_counts.get('TN', 0)
+FP = confusion_counts.get('FP', 0)
+FN = confusion_counts.get('FN', 0)
+
+# Calculate the metrics
+accuracy = (TP + TN) / (TP + TN + FP + FN)
+precision = TP / (TP + FP) if TP + FP > 0 else 0
+recall = TP / (TP + FN) if TP + FN > 0 else 0
+f1 = 2 * (precision * recall) / (precision + recall) if precision + recall > 0 else 0
+
+print(f'Accuracy: {accuracy}')
+print(f'Precision: {precision}')
+print(f'Recall: {recall}')
+print(f'F1: {f1}')
+
+import os
+# Define the CSV file to store results
+csv_filename = "prompt_evaluation.csv"
+
+# Create a DataFrame for the new entry
+new_entry = pd.DataFrame([{
+    "Model Name": model,
+    "Temperature": temperature,
+    "System Prompt": template_system,
+    "User Prompt": template_user,
+    "Accuracy": accuracy,
+    "Precision": precision,
+    "Recall": recall,
+    "F1": f1
+}])
+
+# Append to CSV (create file if it doesn't exist)
+if os.path.exists(csv_filename):
+    new_entry.to_csv(csv_filename, mode='a', header=False, index=False)
+else:
+    new_entry.to_csv(csv_filename, mode='w', header=True, index=False)
+
+print(f"New prompt and evaluation metrics saved to {csv_filename}")
+
